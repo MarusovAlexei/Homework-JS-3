@@ -146,15 +146,16 @@ console.log(myPow(2, 3, myPrint)); // 2^3=8
  * пробелы, запятые, символы cc и текст – имеют значение и проверяются при тестировании кода
  *
  * #6
- *
- * Для созданных ранее объектов измените свойство used, используя аксессоры (геттер и сеттер).
- * - используйте текущий год либо непосредственно в своем коде, либо с помощью глобальной переменной, например, yearNow
- * - если год выпуска автомобиля отличается от текущего года, геттер used должен выводить текст 'used'
- * - если год выпуска автомобиля совпадает с текущим годом, геттер used должен выводить текст 'new'
- * - если сеттеру used присвоено значение 'new', при этом года выпуска автомобиля отличается от текущего года,
- * - необходимо изменить год выпуска автомобиля, установив в качестве значения текущий год
+*
+* Для созданных ранее объектов измените свойство used, используя аксессоры (геттер и сеттер).
+* - используйте текущий год либо непосредственно в своем коде, либо с помощью глобальной переменной, например, yearNow
+* - если год выпуска автомобиля отличается от текущего года, геттер used должен выводить текст 'used'
+* - если год выпуска автомобиля совпадает с текущим годом, геттер used должен выводить текст 'new'
+* - если сеттеру used присвоено значение 'new', при этом года выпуска автомобиля отличается от текущего года,
+* - необходимо изменить год выпуска автомобиля, установив в качестве значения текущий год
  * - если сеттеру used присвоено значение 'used', ничего делать не нужно
- */
+*/
+let yearNow = new Date().getFullYear(); // получить текущий год как число
 
 let carInfo = function (name, model, engine, year, used) {
   return `${this.name} ${this.model}, ${this.engine}cc, year ${this.year}, ${this.used}`;
@@ -165,7 +166,12 @@ let car = {
   model: 'Range Rover',
   name: 'Land Rover',
   year: 2012,
-  used: 'used',
+  get used() {
+    return this.year !== yearNow ? 'used' : 'new';
+  },
+  set used(value) {
+    this.year = value === 'new' ? yearNow : this.year;
+  },
   info: carInfo
 };
 
@@ -173,8 +179,13 @@ let car2 = {
   engine: 2000,
   model: 'RAV4',
   name: 'Toyota',
-  year: 2008,
-  used: 'used',
+  year: 2021,
+  get used() {
+    return this.year !== yearNow ? 'used' : 'new';
+  },
+  set used(value) {
+    this.year = value === 'new' ? yearNow : this.year;
+  },
   info: carInfo
 };
 
@@ -182,28 +193,34 @@ let car3 = {
   engine: 2000,
   model: 'Sportage',
   name: 'Kia',
-  year: 2021,
-  used: 'new',
+  year: 2008,
+  get used() {
+    return this.year !== yearNow ? 'used' : 'new';
+  },
+  set used(value) {
+    this.year = value === 'new' ? yearNow : this.year;
+  },
   info: carInfo
 };
 
-// let yearNow = new Date().getFullYear(); // получить текущий год как число
 
-// console.log(car.info()); // Chevrolet Lacetti, 2000cc, year 2010, used
 
-// car.used = 'new';
 
-// console.log(car.info()); // Chevrolet Lacetti, 2000cc, year 2019, new -- год изменен
+console.log(car.info()); // Chevrolet Lacetti, 2000cc, year 2010, used
 
-// car.used = 'used';
+car.used = 'new';
 
-// console.log(car.info()); // Chevrolet Lacetti, 2000cc, year 2019, new -- изменения не выполняются
+console.log(car.info()); // Chevrolet Lacetti, 2000cc, year 2019, new -- год изменен
 
-// console.log(car2.info()); // Infinite FX50 AWD, 5000cc, year 2019, new
+car.used = 'used';
 
-// car.used = 'used';
+console.log(car.info()); // Chevrolet Lacetti, 2000cc, year 2019, new -- изменения не выполняются
 
-// console.log(car2.info()); // Infinite FX50 AWD, 5000cc, year 2019, new -- изменения не выполняются
+console.log(car2.info()); // Infinite FX50 AWD, 5000cc, year 2019, new
+
+car.used = 'used';
+
+console.log(car2.info()); // Infinite FX50 AWD, 5000cc, year 2019, new -- изменения не выполняются
 
 /*
  * #7
@@ -212,9 +229,11 @@ let car3 = {
  * В реализации функции должен быть применен метод Math.max() и apply().
  */
 
-// let list = [12, 23, 100, 34, 56, 9, 233];
+let list = [12, 23, 100, 34, 56, 9, 233];
 
-// console.log(myMax(list)); // 233
+let myMax = (array) => Math.max.apply(Math, array);
+
+console.log(myMax(list)); // 233
 
 /*
  * #8
@@ -222,25 +241,31 @@ let car3 = {
  * Создайте функцию myMul(a, b), которая будет умножать числа а и b, возвращая результат.
  */
 
+
 /*
  * создайте функции myDouble(n), которая принимает один параметр и  удваивает его.
  * Использовать умножение или другие математические операции внутри функции – запрещено, только bind() и myMul().
  * Функция возвращает результат вычисления.
  */
+var myMul = (increase, value) => value * increase;
 
-// console.log(myDouble(3)); // = myMul(2, 3) = 6
+let myDouble = myMul.bind(null, 2);
 
-// console.log(myDouble(4)); // = myMul(2, 4) = 8
+console.log(myDouble(3)); // = myMul(2, 3) = 6
 
-// console.log(myDouble(5)); // = myMul(2, 5) = 10
+console.log(myDouble(4)); // = myMul(2, 4) = 8
+
+console.log(myDouble(5)); // = myMul(2, 5) = 10
 
 // аналогичным образом создайте функцию myTriple(n), которая утраивает принимающий параметр, возвращая результат.
 
-// console.log(myTriple(3)); // = myMul(3, 3) = 9
+let myTriple = myMul.bind(null, 3);
 
-// console.log(myTriple(4)); // = myMul(3, 4) = 12
+console.log(myTriple(3)); // = myMul(3, 3) = 9
 
-// console.log(myTriple(5)); // = myMul(3, 5) = 15
+console.log(myTriple(4)); // = myMul(3, 4) = 12
+
+console.log(myTriple(5)); // = myMul(3, 5) = 15
 
 /*
  * #9
@@ -251,6 +276,8 @@ let car3 = {
  * В реализации разрешено использование set.
  * Любые условные операторы – запрещены и объекты.
  */
+
+const myUniq = (arr) =>
 
 // let notUniqNums = [1, 1, 2, 3, 4, 5, 6, 7];
 
