@@ -277,12 +277,21 @@ console.log(myTriple(5)); // = myMul(3, 5) = 15
  * Любые условные операторы – запрещены и объекты.
  */
 
-const myUniq = (arr) =>
 
-// let notUniqNums = [1, 1, 2, 3, 4, 5, 6, 7];
+const myUniq = (arr) => {
+  let set = new Set();
 
-// let notUniqStrings = ['Bob', 'Kate', 'Jhon', 'Tom', 'Jhon', 'Kate', 'Tom', 'Bob', 'Jhon', 'Tom'];
+  arr.forEach((arr) => {
+    set.add(arr);
+  });
 
-// console.log(myUniq(notUniqNums));
+  return set;
+};
 
-// console.log(myUniq(notUniqStrings));
+let notUniqNums = [1, 1, 2, 3, 4, 5, 6, 7];
+
+let notUniqStrings = ['Bob', 'Kate', 'Jhon', 'Tom', 'Jhon', 'Kate', 'Tom', 'Bob', 'Jhon', 'Tom'];
+
+console.log(myUniq(notUniqNums));
+
+console.log(myUniq(notUniqStrings));
